@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cam Crew — Official Merch & Plushies</title>
+    <style>
+        :root {
+            --primary: #5865F2;
+            --accent: #FF5E7E;
+            --bg-sky: #83C9F4;
+            --bg-light: #F4F7FB;
+            --text-dark: #1E293B;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding-bottom: 60px;
+        }
+
+        /* Banner Header */
+        header {
+            background: linear-gradient(180deg, #62b5e5 0%, #83C9F4 100%);
+            border-bottom: 6px solid #1E293B;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .hero-banner {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid #1E293B;
+            border-radius: 20px;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 6px 6px 0px #1E293B;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #1E293B;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px var(--bg-sky);
+        }
+
+        /* Navbar & Cart */
+        nav {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 2px solid #1E293B;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #1E293B;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px #1E293B;
+        }
+
+        .cart-btn {
+            background: var(--accent);
+            color: white;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #1E293B;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+        }
+
+        /* Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 3px solid #1E293B;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 5px 5px 0px #1E293B;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .card .price {
+            font-weight: 800;
+            color: #475569;
+            margin-bottom: 15px;
+        }
+
+        .add-cart-btn {
+            width: 100%;
+            background: white;
+            border: 2px solid #1E293B;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-cart-btn:hover {
+            background: #E2E8F0;
+        }
+
+        /* Slide Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0; right: -400px;
+            width: 380px; height: 100%;
+            background: white;
+            border-left: 4px solid #1E293B;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            transition: right 0.3s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .cart-modal.open { right: 0; }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 15px;
+        }
+
+        .close-cart {
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: 900;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            margin: 20px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .checkout-btn {
+            background: #10B981;
+            color: white;
+            border: 2px solid #1E293B;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #1E293B;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="hero-banner">
+            <div class="hero-title">CAM CREW STORE</div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-links">
+            <button class="nav-btn">All Items</button>
+            <button class="nav-btn">Plushies</button>
+            <button class="nav-btn">Apparel</button>
+        </div>
+        <button class="nav-btn cart-btn" onclick="toggleCart()">
+            🛒 Cart <span class="cart-count" id="cart-count">0</span>
+        </button>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">Official Plushie Collection</h2>
+        <div class="product-grid">
+            <div class="card">
+                <svg width="150" height="150" viewBox="0 0 100 100" style="margin: 0 auto;">
+                    <circle cx="50" cy="50" r="40" fill="#FFB6C1" stroke="#1E293B" stroke-width="3"/>
+                    <circle cx="35" cy="45" r="5" fill="#1E293B"/>
+                    <circle cx="65" cy="45" r="5" fill="#1E293B"/>
+                    <path d="M 40 60 Q 50 70 60 60" fill="transparent" stroke="#1E293B" stroke-width="3"/>
+                </svg>
+                <h3>Emma Plush</h3>
+                <p class="price">$52.00 CAD</p>
+                <button class="add-cart-btn" onclick="addToCart('Emma Plush', 52.00)">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <svg width="150" height="150" viewBox="0 0 100 100" style="margin: 0 auto;">
+                    <circle cx="50" cy="50" r="40" fill="#83C9F4" stroke="#1E293B" stroke-width="3"/>
+                    <circle cx="35" cy="45" r="5" fill="#1E293B"/>
+                    <circle cx="65" cy="45" r="5" fill="#1E293B"/>
+                    <path d="M 40 60 Q 50 70 60 60" fill="transparent" stroke="#1E293B" stroke-width="3"/>
+                </svg>
+                <h3>Saph Plush</h3>
+                <p class="price">$52.00 CAD</p>
+                <button class="add-cart-btn" onclick="addToCart('Saph Plush', 52.00)">Add to Cart</button>
+            </div>
+
+            <div class="card">
+                <svg width="150" height="150" viewBox="0 0 100 100" style="margin: 0 auto;">
+                    <circle cx="50" cy="50" r="40" fill="#FDE047" stroke="#1E293B" stroke-width="3"/>
+                    <circle cx="35" cy="45" r="5" fill="#1E293B"/>
+                    <circle cx="65" cy="45" r="5" fill="#1E293B"/>
+                    <path d="M 40 60 Q 50 70 60 60" fill="transparent" stroke="#1E293B" stroke-width="3"/>
+                </svg>
+                <h3>Tsu Plush</h3>
+                <p class="price">$52.00 CAD</p>
+                <button class="add-cart-btn" onclick="addToCart('Tsu Plush', 52.00)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <p>Your cart is empty.</p>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 10px;">Total: $<span id="cart-total">0.00</span> CAD</h4>
+            <button class="checkout-btn" onclick="alert('Checkout coming soon!')">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('open');
+        }
+
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            updateCart();
+            document.getElementById('cart-modal').classList.add('open');
+        }
+
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+
+            cartCount.innerText = cart.length;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+                cartTotal.innerText = '0.00';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div>$${item.price.toFixed(2)} CAD</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = html;
+            cartTotal.innerText = total.toFixed(2);
+        }
+    </script>
+</body>
+</html>
